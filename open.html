@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Open Taskly</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f5f6fa; color: #1f2937; }
+  body { display: flex; align-items: center; justify-content: center; padding: 32px 20px; }
+  .card { width: 100%; max-width: 440px; background: #ffffff; border-radius: 16px; padding: 36px 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); text-align: center; }
+  .logo { width: 160px; height: auto; margin-bottom: 14px; }
+  .title { margin: 0 0 8px; font-size: 22px; font-weight: 700; color: #1f2937; }
+  .sub { margin: 0 0 28px; color: #6b7280; font-size: 14px; line-height: 1.55; }
+  .cta {
+    display: inline-block;
+    width: 100%;
+    padding: 14px 22px;
+    background: #6161ff;
+    color: #ffffff !important;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: filter 0.15s, transform 0.06s;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+  .cta:hover { filter: brightness(1.06); }
+  .cta:active { transform: translateY(1px); }
+  .secondary {
+    display: inline-block;
+    margin-top: 14px;
+    color: #6b7280 !important;
+    font-size: 13px;
+    text-decoration: none;
+    border-bottom: 1px dotted #cbd0d8;
+  }
+  .secondary:hover { color: #1f2937 !important; border-bottom-color: #6b7280; }
+  .note { margin-top: 22px; padding-top: 18px; border-top: 1px solid #eef0f5; font-size: 12px; color: #9ca3af; line-height: 1.55; }
+  .note strong { color: #6b7280; }
+  .clicked-msg { display: none; margin-top: 16px; padding: 12px 14px; border-radius: 8px; background: #ebebff; color: #4040cc; font-size: 13px; line-height: 1.5; }
+  .clicked-msg.show { display: block; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="https://raw.githubusercontent.com/R30Ventures/project-manager-releases/main/branding%3Ataskly-logo.png" alt="Taskly" />
+    <h1 class="title">Open Taskly</h1>
+    <p class="sub">
+      You've been invited to a workspace. Click below to launch the
+      Taskly app — sign in with the email this invitation was sent to and
+      you'll auto-join the team.
+    </p>
+
+    <a class="cta" id="open-btn" href="taskly://invite">Open Taskly</a>
+
+    <div class="clicked-msg" id="clicked">
+      Taskly should be opening… If your browser asked permission, click
+      <strong>Open Taskly Work Management</strong>. If nothing happened,
+      use the download link below.
+    </div>
+
+    <br />
+    <a class="secondary" href="https://github.com/R30Ventures/project-manager-releases/releases/latest" target="_blank">
+      Don't have Taskly yet? Download it
+    </a>
+
+    <div class="note">
+      <strong>Tip for Chrome / Edge users:</strong> after clicking
+      <em>Open Taskly</em>, your browser may ask permission to launch the
+      app. Click <strong>Allow</strong> or <strong>Open</strong> to continue.
+    </div>
+  </div>
+
+<script>
+  (function () {
+    // Read org + email from query string and build the deep link.
+    var params = new URLSearchParams(window.location.search);
+    var org = params.get('org') || '';
+    var email = params.get('email') || '';
+    var deep = 'taskly://invite';
+    if (org) deep += '/' + encodeURIComponent(org);
+    if (email) deep += '?email=' + encodeURIComponent(email);
+
+    var btn = document.getElementById('open-btn');
+    btn.setAttribute('href', deep);
+    btn.addEventListener('click', function () {
+      document.getElementById('clicked').classList.add('show');
+    });
+  })();
+</script>
+</body>
+</html>
